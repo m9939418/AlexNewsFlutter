@@ -2,6 +2,7 @@ import 'package:alex_news_flutter/providers/theme_provider.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -34,18 +35,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                       ),
                     ),
                     const VerticalSpacing(20),
-                    const Flexible(
-                      child: Text('News App'),
+                    Flexible(
+                      child: Text(
+                        'News App',
+                        style: GoogleFonts.lobster(
+                          textStyle: const TextStyle(
+                            fontSize: 20,
+                            letterSpacing: 0.6,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 )),
             const VerticalSpacing(20),
-            listTitles(
+            ListTitlesWidget(
               label: "HOME",
               icon: IconlyBold.home,
               fct: () {},
             ),
-            listTitles(
+            ListTitlesWidget(
               label: "BOOKMARK",
               icon: IconlyBold.bookmark,
               fct: () {},
@@ -75,12 +84,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 }
 
-class listTitles extends StatelessWidget {
+class ListTitlesWidget extends StatelessWidget {
   final String label;
   final IconData icon;
   final Function fct;
 
-  const listTitles({
+  const ListTitlesWidget({
     super.key,
     required this.label,
     required this.icon,
