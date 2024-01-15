@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/widgets/articles_widget.dart';
 import 'package:alex_news_flutter/widgets/drawer_widget.dart';
 import 'package:alex_news_flutter/widgets/tabs_widget.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
@@ -134,7 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           onChanged: (String? value) {}),
                     ),
                   ),
-                )
+                ),
+          Expanded(
+            child: ListView.builder(
+                itemCount: 20,
+                itemBuilder: (context, index) {
+                  return ArticleWidget();
+                }),
+          ),
         ],
       ),
     );
