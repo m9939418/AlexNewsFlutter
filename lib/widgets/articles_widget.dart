@@ -1,3 +1,4 @@
+import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,45 @@ class ArticleWidget extends StatelessWidget {
                           boxFit: BoxFit.fill,
                           imageUrl:
                               "https://storage.potatomedia.co/articles/potato_c53ddc30-1c40-4d42-8b4d-17b5eb1c9a7b_abcca2803988a8852dcb31510c6cb04d4df4fad6.png"),
-                    )
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'title' * 100,
+                          textAlign: TextAlign.justify,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: smallTextStyle,
+                        ),
+                        Align(
+                            alignment: Alignment.topRight,
+                            child: Text(
+                              '🕒 Reading time',
+                              style: smallTextStyle,
+                            )),
+                        Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.link,
+                                  color: Colors.blue,
+                                )),
+                            Text(
+                              '2024-22-22',
+                              maxLines: 1,
+                              style: smallTextStyle,
+                            )
+                          ],
+                        )
+                      ],
+                    ))
                   ],
                 ),
               ),
