@@ -1,6 +1,7 @@
 import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/widgets/drawer_widget.dart';
 import 'package:alex_news_flutter/widgets/tabs_widget.dart';
+import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
+  String sortBy = SortByEnum.popularity.name;
 
   @override
   Widget build(BuildContext context) {
@@ -117,9 +119,44 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
+          const VerticalSpacing(10),
+          newsType == NewsType.topTrending
+              ? Container()
+              : Align(
+                  alignment: Alignment.topRight,
+                  child: Material(
+                    color: Theme.of(context).cardColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: DropdownButton(
+                          value: sortBy,
+                          items: dropDownItem,
+                          onChanged: (String? value) {}),
+                    ),
+                  ),
+                )
         ],
       ),
     );
+  }
+
+  /** 設定 DropdownMenuItems **/
+  List<DropdownMenuItem<String>> get dropDownItem {
+    List<DropdownMenuItem<String>> menuItem = [
+      DropdownMenuItem(
+        value: SortByEnum.relevancy.name,
+        child: Text(SortByEnum.relevancy.name),
+      ),
+      DropdownMenuItem(
+        value: SortByEnum.publishedAt.name,
+        child: Text(SortByEnum.publishedAt.name),
+      ),
+      DropdownMenuItem(
+        value: SortByEnum.popularity.name,
+        child: Text(SortByEnum.popularity.name),
+      ),
+    ];
+    return menuItem;
   }
 
   Widget paginationButton({required Function function, required String text}) {
