@@ -1,6 +1,7 @@
 import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/widgets/articles_widget.dart';
 import 'package:alex_news_flutter/widgets/drawer_widget.dart';
+import 'package:alex_news_flutter/widgets/loading_widget.dart';
 import 'package:alex_news_flutter/widgets/tabs_widget.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
@@ -136,13 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-          Expanded(
-            child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return ArticleWidget();
-                }),
-          ),
+          LoadingWidget(),
         ],
       ),
     );
