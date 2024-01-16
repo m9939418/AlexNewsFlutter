@@ -1,9 +1,12 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/services/utils.dart';
 import 'package:alex_news_flutter/widgets/articles_widget.dart';
 import 'package:alex_news_flutter/widgets/drawer_widget.dart';
 import 'package:alex_news_flutter/widgets/loading_widget.dart';
 import 'package:alex_news_flutter/widgets/tabs_widget.dart';
+import 'package:alex_news_flutter/widgets/top_trending_widget.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -21,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = Utils(context).getScreenSize;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -44,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     setState(() {
                       newsType = NewsType.allNews;
+                      print(newsType.name);
                     });
                   },
                   fontSize: newsType == NewsType.allNews ? 22 : 14,
@@ -61,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                     setState(() {
                       newsType = NewsType.topTrending;
+                      print(newsType.name);
                     });
                   },
                   fontSize: newsType == NewsType.topTrending ? 22 : 14,
@@ -137,7 +144,29 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-          LoadingWidget(),
+          if (newsType == NewsType.allNews)
+            Expanded(
+              child: ListView.builder(
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    return const ArticleWidget();
+                  }),
+            ),
+          if (newsType == NewsType.topTrending)
+            SizedBox(
+              height: size.height * 0.6,
+              child: Swiper(
+                autoplay: true,
+                autoplayDelay: 2000,
+                // itemWidth: size.width * 0.9,
+                // layout: SwiperLayout.STACK,
+                viewportFraction: 0.9,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return TopTrendingWidget();
+                },
+              ),
+            ),
         ],
       ),
     );
