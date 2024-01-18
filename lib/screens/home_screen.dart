@@ -156,8 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: size.height * 0.6,
               child: Swiper(
-                autoplay: true,
-                autoplayDelay: 2000,
+                // autoplay: true,
+                // autoplayDelay: 2000,
                 // itemWidth: size.width * 0.9,
                 // layout: SwiperLayout.STACK,
                 viewportFraction: 0.9,
@@ -167,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
+          // LoadingWidget(newsType: newsType,),
         ],
       ),
     );
