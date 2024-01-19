@@ -1,7 +1,9 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/screens/news_detail_screen.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 /**
  * 新聞列表item
@@ -74,8 +76,18 @@ class ArticleWidget extends StatelessWidget {
                         Row(
                           children: [
                             IconButton(
-                                onPressed: () {},
-                                icon: Icon(
+                                onPressed: () {
+                                  /** 開啟 『 新聞 WebView 』頁 **/
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: const NewsDetailScreen(),
+                                        inheritTheme: true,
+                                        ctx: context),
+                                  );
+                                },
+                                icon: const Icon(
                                   Icons.link,
                                   color: Colors.blue,
                                 )),
