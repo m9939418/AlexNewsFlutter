@@ -1,8 +1,10 @@
 import 'package:alex_news_flutter/providers/theme_provider.dart';
+import 'package:alex_news_flutter/screens/bookmarks_screen.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -55,9 +57,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               fct: () {},
             ),
             ListTitlesWidget(
-              label: "BOOKMARK",
+              label: "BookMarks",
               icon: IconlyBold.bookmark,
-              fct: () {},
+              fct: () {
+                /** 開啟 『 BookMarks 』頁 **/
+                Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: const BookMarksScreen(),
+                      inheritTheme: true,
+                      ctx: context),
+                );
+              },
             ),
             const Divider(
               thickness: 2,
