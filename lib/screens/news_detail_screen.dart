@@ -5,6 +5,7 @@ import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// 新聞 WebView 頁
@@ -18,6 +19,7 @@ class NewsDetailScreen extends StatefulWidget {
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
   late WebViewController _webViewController;
   double _progress = 0.0;
+  final String url = "https://news.tvbs.com.tw/life/2305497";
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +74,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ),
               Expanded(
                 child: WebView(
-                  initialUrl: 'https://news.tvbs.com.tw/life/2305497',
+                  initialUrl: url,
                   onProgress: (progress) {
                     _progress = progress / 100;
                   },
@@ -146,7 +148,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ListTile(
                 leading: const Icon(Icons.open_in_browser),
                 title: const Text('Open in browser'),
-                onTap: () {},
+                onTap: () async {
+                  if (!await launchUrl(Uri.parse(url))) {
+                    throw Exception('Could not launch $url');
+                  }
+                },
               ),
               /** Refresh **/
               ListTile(
