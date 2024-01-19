@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +146,15 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ListTile(
                 leading: const Icon(Icons.refresh),
                 title: const Text('Refresh'),
-                onTap: () {},
+                onTap: () async {
+                  try {
+                    await _webViewController.reload();
+                  } catch (err) {
+                    log("error occured $err");
+                  } finally {
+                    if (context.mounted) Navigator.of(context).pop();
+                  }
+                },
               ),
             ],
           ),
