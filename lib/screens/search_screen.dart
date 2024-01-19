@@ -1,5 +1,6 @@
 import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/services/utils.dart';
+import 'package:alex_news_flutter/widgets/empty_news_widget.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -114,6 +115,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                 ),
               ),
+              /** 查無新聞UI **/
+              const EmptyNewsWidget(
+                text: "Ops! No data found",
+                imagePage: 'assets/images/search.png',
+              )
             ],
           ),
         ),
