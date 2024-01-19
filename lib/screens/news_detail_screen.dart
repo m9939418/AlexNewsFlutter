@@ -1,5 +1,6 @@
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// 新聞 WebView 頁
@@ -30,6 +31,13 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
+            /** 『 Back 』按鈕 **/
+            leading: IconButton(
+              icon: const Icon(IconlyLight.arrowLeft2),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             iconTheme: IconThemeData(color: color),
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             centerTitle: true,
