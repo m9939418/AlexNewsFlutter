@@ -4,6 +4,7 @@ import 'package:alex_news_flutter/services/utils.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// 新聞 WebView 頁
@@ -134,7 +135,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ListTile(
                 leading: const Icon(Icons.share),
                 title: const Text('Share'),
-                onTap: () {},
+                onTap: () async {
+                  await Share.share(
+                    'url',
+                    subject: 'Look what I made!',
+                  );
+                },
               ),
               /** Open in browser **/
               ListTile(
