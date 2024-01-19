@@ -1,8 +1,11 @@
+import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/services/utils.dart';
+import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-/** 搜尋頁 **/
+/// 搜尋頁
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -82,6 +85,33 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              const VerticalSpacing(10),
+              /** 搜尋關鍵字 **/
+              Expanded(
+                child: MasonryGridView.count(
+                  crossAxisCount: 4,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                  itemCount: searchKeywords.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      child: Container(
+                        margin: const EdgeInsets.all(4.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: color,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(searchKeywords[index]),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
