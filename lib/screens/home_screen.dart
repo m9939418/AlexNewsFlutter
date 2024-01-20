@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/screens/search_screen.dart';
 import 'package:alex_news_flutter/services/utils.dart';
@@ -13,6 +15,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,6 +28,19 @@ class _HomeScreenState extends State<HomeScreen> {
   var newsType = NewsType.allNews;
   int currentPageIndex = 0;
   String sortBy = SortByEnum.popularity.name;
+
+  Future<void> getNews() async {
+    var url = Uri.parse(
+        'https://newsapi.org/v2/everything?q=bitcoin&apiKey=2bd20a8e990348838b760332bbe293df');
+    var response = await http.get(url);
+    log('Response body: ${response.body}');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getNews();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +61,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             /** 『 搜尋 』按鈕 **/
-            IconButton(onPressed: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: SearchScreen(),
-                    inheritTheme: true,
-                    ctx: context),
-              );
-            }, icon: const Icon(IconlyLight.search))
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: SearchScreen(),
+                        inheritTheme: true,
+                        ctx: context),
+                  );
+                },
+                icon: const Icon(IconlyLight.search))
           ],
         ),
         drawer: const DrawerWidget(),
