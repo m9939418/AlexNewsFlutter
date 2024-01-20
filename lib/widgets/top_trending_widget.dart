@@ -1,7 +1,10 @@
+import 'package:alex_news_flutter/screens/blog_detail_screen.dart';
+import 'package:alex_news_flutter/screens/news_detail_screen.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class TopTrendingWidget extends StatelessWidget {
   const TopTrendingWidget({super.key});
@@ -16,7 +19,10 @@ class TopTrendingWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12.0),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            /** 前往『 新聞詳細 』頁 **/
+            Navigator.pushNamed(context, NewsDetailsScreen.routerName);
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,7 +47,17 @@ class TopTrendingWidget extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        /** 開啟 『 新聞 WebView 』頁 **/
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const NewsDetailScreen(),
+                              inheritTheme: true,
+                              ctx: context),
+                        );
+                      },
                       icon: Icon(
                         Icons.link,
                         color: color,

@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/screens/blog_detail_screen.dart';
 import 'package:alex_news_flutter/screens/news_detail_screen.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -20,7 +21,10 @@ class ArticleWidget extends StatelessWidget {
       child: Material(
         color: Theme.of(context).cardColor,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            /** 前往『 新聞詳細 』頁 **/
+            Navigator.pushNamed(context, NewsDetailsScreen.routerName);
+          },
           child: Stack(
             children: [
               Container(
@@ -49,6 +53,7 @@ class ArticleWidget extends StatelessWidget {
                           height: size.height * 0.12,
                           width: size.height * 0.12,
                           boxFit: BoxFit.fill,
+                          errorWidget: Image.asset('assets/images/empty_image.png'),
                           imageUrl:
                               "https://storage.potatomedia.co/articles/potato_c53ddc30-1c40-4d42-8b4d-17b5eb1c9a7b_abcca2803988a8852dcb31510c6cb04d4df4fad6.png"),
                     ),
