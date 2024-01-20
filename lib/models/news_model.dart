@@ -1,99 +1,75 @@
+
 class NewsModel {
+  String newsId,
+      sourceName,
+      authorName,
+      title,
+      description,
+      url,
+      urlToImage,
+      publishedAt,
+      dateToShow,
+      content,
+      readingTimeText;
+
   NewsModel({
-      this.status, 
-      this.totalResults, 
-      this.articles,});
+    required this.newsId,
+    required this.sourceName,
+    required this.authorName,
+    required this.title,
+    required this.description,
+    required this.url,
+    required this.urlToImage,
+    required this.publishedAt,
+    required this.content,
+    required this.dateToShow,
+    required this.readingTimeText,
+  });
 
-  NewsModel.fromJson(dynamic json) {
-    status = json['status'];
-    totalResults = json['totalResults'];
-    if (json['articles'] != null) {
-      articles = [];
-      json['articles'].forEach((v) {
-        articles?.add(Articles.fromJson(v));
-      });
-    }
+  factory NewsModel.fromJson(dynamic json) {
+    String title = json["title"] ?? "";
+    String content = json["content"] ?? "";
+    String description = json["description"] ?? "";
+    return NewsModel(
+      newsId: json["source"]["id"] ?? "",
+      sourceName: json["source"]["name"] ?? "",
+      authorName: json["author"] ?? "",
+      title: title,
+      description: description,
+      url: json["url"] ?? "",
+      urlToImage: json["urlToImage"] ??
+          "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
+      publishedAt: json["publishedAt"] ?? "",
+      content: content,
+      dateToShow: "dateToShow",
+      readingTimeText: "readingTimeText",
+    );
   }
-  String? status;
-  int? totalResults;
-  List<Articles>? articles;
+
+  static List<NewsModel> newsFromSnapshot(List newSnapshot) {
+    return newSnapshot.map((json) {
+      return NewsModel.fromJson(json);
+    }).toList();
+  }
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = status;
-    map['totalResults'] = totalResults;
-    if (articles != null) {
-      map['articles'] = articles?.map((v) => v.toJson()).toList();
-    }
-    return map;
+    final Map<String, dynamic> data = {};
+    data["newsId"] = newsId;
+    data["sourceName"] = sourceName;
+    data["authorName"] = authorName;
+    data["title"] = title;
+    data["description"] = description;
+    data["url"] = url;
+    data["urlToImage"] = urlToImage;
+    data["publishedAt"] = publishedAt;
+    data["dateToShow"] = dateToShow;
+    data["content"] = content;
+    data["readingTimeText"] = readingTimeText;
+    return data;
   }
 
-}
-
-class Articles {
-  Articles({
-      this.source, 
-      this.author, 
-      this.title, 
-      this.description, 
-      this.url, 
-      this.urlToImage, 
-      this.publishedAt, 
-      this.content,});
-
-  Articles.fromJson(dynamic json) {
-    source = json['source'] != null ? Source.fromJson(json['source']) ?? "";
-    author = json['author'] ?? "";
-    title = json['title'] ?? "";
-    description = json['description'] ?? "";
-    url = json['url'] ?? "";
-    urlToImage = json['urlToImage'] ?? "";
-    publishedAt = json['publishedAt'] ?? "";
-    content = json['content'] ?? "";
-  }
-  Source? source;
-  String? author;
-  String? title;
-  String? description;
-  String? url;
-  String? urlToImage;
-  String? publishedAt;
-  String? content;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    if (source != null) {
-      map['source'] = source?.toJson();
-    }
-    map['author'] = author;
-    map['title'] = title;
-    map['description'] = description;
-    map['url'] = url;
-    map['urlToImage'] = urlToImage;
-    map['publishedAt'] = publishedAt;
-    map['content'] = content;
-    return map;
-  }
-
-}
-
-class Source {
-  Source({
-      this.id, 
-      this.name,});
-
-  Source.fromJson(dynamic json) {
-    id = json['id'];
-    name = json['name'];
-  }
-  String? id;
-  String? name;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    return map;
-  }
-
+// @override
+// String toString() {
+//   return "news {newid: $newsId}";
+// }
 }
