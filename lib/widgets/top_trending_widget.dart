@@ -7,7 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class TopTrendingWidget extends StatelessWidget {
-  const TopTrendingWidget({super.key});
+  final String url;
+
+  const TopTrendingWidget({super.key, required this.url});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class TopTrendingWidget extends StatelessWidget {
                           context,
                           PageTransition(
                               type: PageTransitionType.rightToLeft,
-                              child: const NewsDetailScreen(),
+                              child: NewsDetailScreen(url: url,),
                               inheritTheme: true,
                               ctx: context),
                         );

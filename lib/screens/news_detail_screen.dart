@@ -10,7 +10,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 /// 新聞 WebView 頁
 class NewsDetailScreen extends StatefulWidget {
-  const NewsDetailScreen({super.key});
+  final String url;
+
+  const NewsDetailScreen({super.key, required this.url});
 
   @override
   State<NewsDetailScreen> createState() => _NewsDetailScreenState();
@@ -19,7 +21,6 @@ class NewsDetailScreen extends StatefulWidget {
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
   late WebViewController _webViewController;
   double _progress = 0.0;
-  final String url = "https://news.tvbs.com.tw/life/2305497";
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             centerTitle: true,
             elevation: 0,
             title: Text(
-              'URL',
+              widget.url,
               style: TextStyle(
                 color: color,
               ),
@@ -74,7 +75,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ),
               Expanded(
                 child: WebView(
-                  initialUrl: url,
+                  initialUrl: widget.url,
                   onProgress: (progress) {
                     _progress = progress / 100;
                   },
@@ -139,7 +140,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 title: const Text('Share'),
                 onTap: () async {
                   await Share.share(
-                    'url',
+                    widget.url,
                     subject: 'Look what I made!',
                   );
                 },
@@ -149,8 +150,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 leading: const Icon(Icons.open_in_browser),
                 title: const Text('Open in browser'),
                 onTap: () async {
-                  if (!await launchUrl(Uri.parse(url))) {
-                    throw Exception('Could not launch $url');
+                  if (!await launchUrl(Uri.parse(widget.url))) {
+                    throw Exception('Could not launch ${widget.url}');
                   }
                 },
               ),

@@ -8,9 +8,15 @@ import 'package:page_transition/page_transition.dart';
 
 /// 新聞列表item
 class ArticleWidget extends StatelessWidget {
-  final String imageUrl;
+  final String imageUrl, title, url, dateToShow, readingTime;
 
-  const ArticleWidget({super.key, required this.imageUrl});
+  const ArticleWidget(
+      {super.key,
+      required this.imageUrl,
+      required this.title,
+      required this.url,
+      required this.dateToShow,
+      required this.readingTime});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +73,7 @@ class ArticleWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'title' * 100,
+                          title,
                           textAlign: TextAlign.justify,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
@@ -76,7 +82,7 @@ class ArticleWidget extends StatelessWidget {
                         Align(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '🕒 Reading time',
+                              '🕒 $readingTime',
                               style: smallTextStyle,
                             )),
                         Row(
@@ -88,7 +94,7 @@ class ArticleWidget extends StatelessWidget {
                                     context,
                                     PageTransition(
                                         type: PageTransitionType.rightToLeft,
-                                        child: const NewsDetailScreen(),
+                                        child: NewsDetailScreen(url: url,),
                                         inheritTheme: true,
                                         ctx: context),
                                   );
@@ -98,7 +104,7 @@ class ArticleWidget extends StatelessWidget {
                                   color: Colors.blue,
                                 )),
                             Text(
-                              '2024-22-22',
+                              dateToShow,
                               maxLines: 1,
                               style: smallTextStyle,
                             )

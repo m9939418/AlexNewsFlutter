@@ -212,6 +212,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               return ArticleWidget(
                                 imageUrl: snapshot.data![index].urlToImage,
+                                dateToShow: snapshot.data![index].dateToShow,
+                                readingTime:
+                                    snapshot.data![index].readingTimeText,
+                                title: snapshot.data![index].title,
+                                url: snapshot.data![index].url,
                               );
                             }),
                       )
@@ -225,7 +230,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           viewportFraction: 0.9,
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            return const TopTrendingWidget();
+                            return TopTrendingWidget(
+                              url: snapshot.data![index].url,
+                            );
                           },
                         ),
                       );
