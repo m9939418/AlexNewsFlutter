@@ -1,4 +1,5 @@
 
+import 'package:alex_news_flutter/services/global_method.dart';
 import 'package:reading_time/reading_time.dart';
 
 class NewsModel {
@@ -32,6 +33,11 @@ class NewsModel {
     String title = json["title"] ?? "";
     String content = json["content"] ?? "";
     String description = json["description"] ?? "";
+
+    String dateToShow = "";
+    if (json["publishedAt"] != null) {
+      dateToShow = GlobalMethod.formattingDateText(json["publishedAt"]);
+    }
     return NewsModel(
       newsId: json["source"]["id"] ?? "",
       sourceName: json["source"]["name"] ?? "",
@@ -43,7 +49,7 @@ class NewsModel {
           "https://techcrunch.com/wp-content/uploads/2022/01/locket-app.jpg?w=1390&crop=1",
       publishedAt: json["publishedAt"] ?? "",
       content: content,
-      dateToShow: "dateToShow",
+      dateToShow: dateToShow,
       readingTimeText: readingTime(title + description + content).msg,
     );
   }

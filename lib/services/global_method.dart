@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:intl/intl.dart';
 
 class GlobalMethod {
+  /// format: 21/1/2024 on 9:21
+  static String formattingDateText(String publishAt) {
+    DateTime publishDate = DateTime.parse(publishAt);
+    return '${publishDate.day}/${publishDate.month}/${publishDate.year} on ${publishDate.hour}:${publishDate.minute}';
+  }
 
   /// Error Dialog
   static Future<void> errorDialog({
