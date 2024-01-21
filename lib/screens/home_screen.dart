@@ -29,10 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
   String sortBy = SortByEnum.popularity.name;
 
   /// 取得所有新聞
-  Future<List<NewsModel>> fetchAllNews() async {
-    List<NewsModel> newsList = await NewsApiService.getAllNews();
-    return newsList;
-  }
+  // Future<List<NewsModel>> fetchAllNews() async {
+  //   List<NewsModel> newsList = await NewsApiService.getAllNews();
+  //   return newsList;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder(
-              future: fetchAllNews(),
+              future: NewsApiService.getAllNews(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews
@@ -195,9 +195,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                 } else if (snapshot.hasError) {
-                  return EmptyNewsWidget(
-                    text: "an error occured ${snapshot.error}",
-                    imagePage: 'assets/images/no_news.png',
+                  return Expanded(
+                    child: EmptyNewsWidget(
+                      text: "an error occured ${snapshot.error}",
+                      imagePage: 'assets/images/no_news.png',
+                    ),
                   );
                 } else if (snapshot.data == null) {
                   return const EmptyNewsWidget(

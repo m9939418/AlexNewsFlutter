@@ -5,24 +5,30 @@ import 'package:alex_news_flutter/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
 class NewsApiService {
-
   static Future<List<NewsModel>> getAllNews() async {
     // var url = Uri.parse(
     //     'https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=2bd20a8e990348838b760332bbe293df');
-    var uri = Uri.https(BASEURL, "v2/everything", {
-      "q": "bitcoin",
-      "pageSize": "5",
-      // "apiKey": API_KEY,
-    });
-    var response = await http.get(
-      uri,
-      headers: {"X-Api-key": API_KEY},
-    );
-    Map data = jsonDecode(response.body);
-    List newsTempList = [];
-    for (var v in data['articles']) {
-      newsTempList.add(v);
+    try {
+      var uri = Uri.https(BASEURL, "v2/everything", {
+        "q": "bitcoin",
+        "pageSize": "5",
+        // "apiKey": API_KEY,
+      });
+      var response = await http.get(
+        uri,
+        headers: {"X-Api-key": API_KEY},
+      );
+      Map data = jsonDecode(response.body);
+      List newsTempList = [];
+      if (data['code'] != null) {
+        throw data['message'];
+      }
+      for (var v in data['articles']) {
+        newsTempList.add(v);
+      }
+      return NewsModel.newsFromSnapshot(newsTempList);
+    } catch (error) {
+      throw error.toString();
     }
-    return NewsModel.newsFromSnapshot(newsTempList);
   }
 }
