@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alex_news_flutter/consts/api_constant.dart';
+import 'package:alex_news_flutter/consts/http_exceptions.dart';
 import 'package:alex_news_flutter/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,8 +22,9 @@ class NewsApiService {
       Map data = jsonDecode(response.body);
       List newsTempList = [];
       if (data['code'] != null) {
-        throw data['message'];
+        throw HttpException(data['message']);
       }
+
       for (var v in data['articles']) {
         newsTempList.add(v);
       }
