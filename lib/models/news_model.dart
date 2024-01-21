@@ -1,4 +1,6 @@
 
+import 'package:reading_time/reading_time.dart';
+
 class NewsModel {
   String newsId,
       sourceName,
@@ -42,7 +44,7 @@ class NewsModel {
       publishedAt: json["publishedAt"] ?? "",
       content: content,
       dateToShow: "dateToShow",
-      readingTimeText: "readingTimeText",
+      readingTimeText: readingTime(title + description + content).msg,
     );
   }
 
