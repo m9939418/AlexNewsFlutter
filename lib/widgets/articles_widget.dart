@@ -6,11 +6,11 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-/**
- * 新聞列表item
- */
+/// 新聞列表item
 class ArticleWidget extends StatelessWidget {
-  const ArticleWidget({super.key});
+  final String imageUrl;
+
+  const ArticleWidget({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +50,13 @@ class ArticleWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: FancyShimmerImage(
-                          height: size.height * 0.12,
-                          width: size.height * 0.12,
-                          boxFit: BoxFit.fill,
-                          errorWidget: Image.asset('assets/images/empty_image.png'),
-                          imageUrl:
-                              "https://storage.potatomedia.co/articles/potato_c53ddc30-1c40-4d42-8b4d-17b5eb1c9a7b_abcca2803988a8852dcb31510c6cb04d4df4fad6.png"),
+                        height: size.height * 0.12,
+                        width: size.height * 0.12,
+                        boxFit: BoxFit.fill,
+                        errorWidget:
+                            Image.asset('assets/images/empty_image.png'),
+                        imageUrl: imageUrl,
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
