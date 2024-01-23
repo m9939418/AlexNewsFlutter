@@ -1,8 +1,9 @@
 
 import 'package:alex_news_flutter/services/global_method.dart';
+import 'package:flutter/material.dart';
 import 'package:reading_time/reading_time.dart';
 
-class NewsModel {
+class NewsModel with ChangeNotifier{
   String newsId,
       sourceName,
       authorName,

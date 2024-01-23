@@ -215,14 +215,17 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
-                              return ArticleWidget(
-                                imageUrl: snapshot.data![index].urlToImage,
-                                dateToShow: snapshot.data![index].dateToShow,
-                                readingTime:
-                                    snapshot.data![index].readingTimeText,
-                                title: snapshot.data![index].title,
-                                url: snapshot.data![index].url,
-                              );
+                              return ChangeNotifierProvider.value(
+                                  value: snapshot.data![index],
+                                  child: const ArticleWidget());
+                              // return ArticleWidget(
+                              //   imageUrl: snapshot.data![index].urlToImage,
+                              //   dateToShow: snapshot.data![index].dateToShow,
+                              //   readingTime:
+                              //       snapshot.data![index].readingTimeText,
+                              //   title: snapshot.data![index].title,
+                              //   url: snapshot.data![index].url,
+                              // );
                             }),
                       )
                     : SizedBox(
