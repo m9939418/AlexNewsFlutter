@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/theme_data.dart';
+import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/providers/theme_provider.dart';
 import 'package:alex_news_flutter/screens/blog_detail_screen.dart';
 import 'package:alex_news_flutter/screens/home_screen.dart';
@@ -41,7 +42,10 @@ class _MyAppState extends State<MyApp> {
         providers: [
           ChangeNotifierProvider(create: (_) {
             return themeProvider;
-          })
+          }),
+          ChangeNotifierProvider(create: (_) {
+            return NewsProvider();
+          }),
         ],
         child:
             Consumer<ThemeProvider>(builder: (context, themeProvider, child) {

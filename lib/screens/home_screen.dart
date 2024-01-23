@@ -1,5 +1,6 @@
 import 'package:alex_news_flutter/consts/vars.dart';
 import 'package:alex_news_flutter/models/news_model.dart';
+import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/screens/search_screen.dart';
 import 'package:alex_news_flutter/services/news_api.dart';
 import 'package:alex_news_flutter/services/utils.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -182,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder(
-              future: NewsApiService.getAllNews(),
+              future: newsProvider.fetchAllNews(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews
