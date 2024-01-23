@@ -190,10 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
             FutureBuilder(
-              future: newsProvider.fetchAllNews(
-                pageIndex: currentPageIndex + 1,
-                sortBy: sortBy,
-              ),
+              future: newsType == NewsType.topTrending
+                  ? newsProvider.fetchTopHeadlines()
+                  : newsProvider.fetchAllNews(
+                      pageIndex: currentPageIndex + 1,
+                      sortBy: sortBy,
+                    ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews
@@ -241,13 +243,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Swiper(
                           // autoplay: true,
                           // autoplayDelay: 2000,
-                          // itemWidth: size.width * 0.9,
-                          // layout: SwiperLayout.STACK,
+                          itemWidth: size.width * 0.9,
+                          layout: SwiperLayout.STACK,
                           viewportFraction: 0.9,
                           itemCount: 5,
                           itemBuilder: (context, index) {
-                            return TopTrendingWidget(
-                              url: snapshot.data![index].url,
+                            return ChangeNotifierProvider.value(
+                              value: snapshot.data![index],
+                              child: const TopTrendingWidget(),
                             );
                           },
                         ),

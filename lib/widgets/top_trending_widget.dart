@@ -1,3 +1,4 @@
+import 'package:alex_news_flutter/models/news_model.dart';
 import 'package:alex_news_flutter/screens/blog_detail_screen.dart';
 import 'package:alex_news_flutter/screens/news_detail_screen.dart';
 import 'package:alex_news_flutter/services/utils.dart';
@@ -5,16 +6,16 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 class TopTrendingWidget extends StatelessWidget {
-  final String url;
-
-  const TopTrendingWidget({super.key, required this.url});
+  const TopTrendingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsModel>(context);
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Material(
@@ -23,7 +24,11 @@ class TopTrendingWidget extends StatelessWidget {
         child: InkWell(
           onTap: () {
             /** 前往『 新聞詳細 』頁 **/
-            Navigator.pushNamed(context, NewsDetailsScreen.routerName);
+            Navigator.pushNamed(
+              context,
+              NewsDetailsScreen.routerName,
+              arguments: newsProvider.publishedAt,
+            );
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,17 +38,21 @@ class TopTrendingWidget extends StatelessWidget {
                 child: FancyShimmerImage(
                   boxFit: BoxFit.fill,
                   errorWidget: Image.asset('assets/images/empty_image.png'),
-                  imageUrl:
-                      "https://storage.potatomedia.co/articles/potato_c53ddc30-1c40-4d42-8b4d-17b5eb1c9a7b_abcca2803988a8852dcb31510c6cb04d4df4fad6.png",
+                  imageUrl: newsProvider.urlToImage,
                   height: size.height * 0.33,
                   width: double.infinity,
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  'Title',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    newsProvider.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
                 ),
               ),
               Row(
@@ -54,10 +63,13 @@ class TopTrendingWidget extends StatelessWidget {
                         Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: NewsDetailScreen(url: url,),
-                              inheritTheme: true,
-                              ctx: context),
+                            type: PageTransitionType.rightToLeft,
+                            child: NewsDetailScreen(
+                              url: newsProvider.url,
+                            ),
+                            inheritTheme: true,
+                            ctx: context,
+                          ),
                         );
                       },
                       icon: Icon(
@@ -66,7 +78,7 @@ class TopTrendingWidget extends StatelessWidget {
                       )),
                   const Spacer(),
                   SelectableText(
-                    '20-11-2024',
+                    newsProvider.dateToShow,
                     style: GoogleFonts.montserrat(fontSize: 15),
                   )
                 ],
