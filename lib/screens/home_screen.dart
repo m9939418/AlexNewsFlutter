@@ -178,15 +178,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: DropdownButton(
-                            value: sortBy,
-                            items: dropDownItem,
-                            onChanged: (String? value) {}),
+                          value: sortBy,
+                          items: dropDownItem,
+                          onChanged: (String? value) {
+                            setState(() {
+                              sortBy = value!;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
             FutureBuilder(
-              future:
-                  newsProvider.fetchAllNews(pageIndex: currentPageIndex + 1),
+              future: newsProvider.fetchAllNews(
+                pageIndex: currentPageIndex + 1,
+                sortBy: sortBy,
+              ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return newsType == NewsType.allNews

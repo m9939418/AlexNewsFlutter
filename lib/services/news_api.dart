@@ -6,7 +6,8 @@ import 'package:alex_news_flutter/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
 class NewsApiService {
-  static Future<List<NewsModel>> getAllNews({required int page}) async {
+  static Future<List<NewsModel>> getAllNews(
+      {required int page, required String sortBy}) async {
     // var url = Uri.parse(
     //     'https://newsapi.org/v2/everything?q=bitcoin&pageSize=5&apiKey=2bd20a8e990348838b760332bbe293df');
     try {
@@ -14,6 +15,7 @@ class NewsApiService {
         "q": "bitcoin",
         "pageSize": "5",
         "page": page.toString(),
+        "sortBy": sortBy,
         // "apiKey": API_KEY,
       });
       var response = await http.get(
