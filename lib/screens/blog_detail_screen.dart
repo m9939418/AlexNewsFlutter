@@ -1,5 +1,6 @@
 import 'package:alex_news_flutter/consts/styles.dart';
 import 'package:alex_news_flutter/providers/news_provider.dart';
+import 'package:alex_news_flutter/services/global_method.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 /// 新聞詳細頁
 class NewsDetailsScreen extends StatefulWidget {
@@ -97,15 +99,30 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                     onTap: () {},
                     child: Row(
                       children: [
-                        Card(
-                          elevation: 10,
-                          shape: const CircleBorder(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              IconlyLight.send,
-                              size: 28,
-                              color: color,
+                        GestureDetector(
+                          onTap: () async {
+                            try {
+                              await Share.share(
+                                currentNews.url,
+                                subject: 'Look what I made!',
+                              );
+                            } catch (e) {
+                              GlobalMethod.errorDialog(
+                                errorMsg: e.toString(),
+                                context: context,
+                              );
+                            }
+                          },
+                          child: Card(
+                            elevation: 10,
+                            shape: const CircleBorder(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                IconlyLight.send,
+                                size: 28,
+                                color: color,
+                              ),
                             ),
                           ),
                         ),
