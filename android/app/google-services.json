@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "29481201119",
+    "project_id": "alexnewsflutter",
+    "storage_bucket": "alexnewsflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29481201119:android:be5e7708dea1e3754c686a",
+        "android_client_info": {
+          "package_name": "com.yang.alex_news_flutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5Tl0RhyRT3qePeQZkjmVgKDdFXzGuwBs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
