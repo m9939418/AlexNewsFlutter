@@ -1,10 +1,14 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/models/news_model.dart';
+import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/services/utils.dart';
+import 'package:alex_news_flutter/widgets/articles_widget.dart';
 import 'package:alex_news_flutter/widgets/empty_news_widget.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
 /// 搜尋頁
 class SearchScreen extends StatefulWidget {
@@ -18,6 +22,9 @@ class _SearchScreenState extends State<SearchScreen> {
   late final TextEditingController _searchTextEditingController;
   late final FocusNode focusNode;
 
+  List<NewsModel>? searchList = [];
+  bool isSearching = false;
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +36,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final size = Utils(context).getScreenSize;
     final Color color = Utils(context).getColor;
+    final newsProvider = Provider.of<NewsProvider>(context);
     return SafeArea(
       child: GestureDetector(
         onTap: () {
@@ -59,7 +67,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         autofocus: true,
                         textInputAction: TextInputAction.search,
                         keyboardType: TextInputType.text,
-                        onEditingComplete: () {},
+                        onEditingComplete: () async {
+                          searchList = await newsProvider.fetchSearchNews(
+                              query: _searchTextEditingController.text);
+                          focusNode.unfocus();
+                          isSearching = true;
+                          setState(() {});
+                        },
                         decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(
                               bottom: 8 / 5,
@@ -74,6 +88,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 onTap: () {
                                   _searchTextEditingController.clear();
                                   focusNode.unfocus();
+                                  isSearching = false;
+                                  searchList = [];
                                   setState(() {});
                                 },
                                 child: const Icon(
@@ -89,37 +105,66 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
               const VerticalSpacing(10),
-              /** 搜尋關鍵字 **/
-              Expanded(
-                child: MasonryGridView.count(
-                  crossAxisCount: 4,
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
-                  itemCount: searchKeywords.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: Container(
-                        margin: const EdgeInsets.all(4.0),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: color,
+              if (!isSearching && searchList!.isEmpty)
+                /** 搜尋關鍵字 **/
+                Expanded(
+                  child: MasonryGridView.count(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 4,
+                    crossAxisSpacing: 4,
+                    itemCount: searchKeywords.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () async {
+                          _searchTextEditingController.text =
+                              searchKeywords[index];
+                          searchList = await newsProvider.fetchSearchNews(
+                              query: _searchTextEditingController.text);
+                          focusNode.unfocus();
+                          isSearching = true;
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.all(4.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: color,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          borderRadius: BorderRadius.circular(30),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                                child: FittedBox(
+                              child: Text(
+                                searchKeywords[index],
+                              ),
+                            )),
+                          ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(searchKeywords[index]),
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
               /** 查無新聞UI **/
-              const EmptyNewsWidget(
-                text: "Ops! No data found",
-                imagePage: 'assets/images/search.png',
-              ),
+              if (isSearching && searchList!.isEmpty)
+                const Expanded(
+                  child: EmptyNewsWidget(
+                    text: "Ops! No data found",
+                    imagePage: 'assets/images/search.png',
+                  ),
+                ),
+              /** 如果有查詢到新聞 **/
+              if (searchList != null && searchList!.isNotEmpty)
+                Expanded(
+                  child: ListView.builder(
+                      itemCount: searchList!.length,
+                      itemBuilder: (context, index) {
+                        return ChangeNotifierProvider.value(
+                            value: searchList![index],
+                            child: const ArticleWidget());
+                      }),
+                )
             ],
           ),
         ),

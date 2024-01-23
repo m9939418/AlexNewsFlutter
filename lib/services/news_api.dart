@@ -37,10 +37,37 @@ class NewsApiService {
     }
   }
 
+  /// 『 TopHeadlines 』新聞API
   static Future<List<NewsModel>> getTopHeadlines() async {
     try {
       var uri = Uri.https(BASEURL, "v2/top-headlines", {
         "country": "us",
+      });
+      var response = await http.get(
+        uri,
+        headers: {"X-Api-key": API_KEY},
+      );
+      Map data = jsonDecode(response.body);
+      List newsTempList = [];
+      if (data['code'] != null) {
+        throw HttpException(data['message']);
+      }
+
+      for (var v in data['articles']) {
+        newsTempList.add(v);
+      }
+      return NewsModel.newsFromSnapshot(newsTempList);
+    } catch (error) {
+      throw error.toString();
+    }
+  }
+
+  /// 『 搜尋 』新聞API
+  static Future<List<NewsModel>> searchNews({required String query}) async {
+    try {
+      var uri = Uri.https(BASEURL, "v2/everything", {
+        "q": query,
+        "pageSize": "20",
       });
       var response = await http.get(
         uri,

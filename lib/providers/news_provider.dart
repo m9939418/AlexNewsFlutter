@@ -9,6 +9,7 @@ class NewsProvider with ChangeNotifier {
     return newsList;
   }
 
+  /// 取得『 一般 』新聞列表
   Future<List<NewsModel>> fetchAllNews({
     required int pageIndex,
     required String sortBy,
@@ -20,8 +21,15 @@ class NewsProvider with ChangeNotifier {
     return newsList;
   }
 
+  /// 取得『 TopHeadlines 』新聞列表
   Future<List<NewsModel>> fetchTopHeadlines() async {
     newsList = await NewsApiService.getTopHeadlines();
+    return newsList;
+  }
+
+  /// 取得『 搜尋 』新聞列表
+  Future<List<NewsModel>> fetchSearchNews({required String query}) async {
+    newsList = await NewsApiService.searchNews(query: query);
     return newsList;
   }
 
