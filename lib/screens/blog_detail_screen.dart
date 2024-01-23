@@ -1,10 +1,12 @@
 import 'package:alex_news_flutter/consts/styles.dart';
+import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 /// 新聞詳細頁
 class NewsDetailsScreen extends StatefulWidget {
@@ -21,13 +23,16 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
     final Size size = Utils(context).getScreenSize;
+    final newsProvider = Provider.of<NewsProvider>(context);
+    final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: color),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         title: Text(
-          'By Author',
+          'By ${currentNews.authorName}',
           style: TextStyle(color: color),
         ),
         // leading: IconButton(
@@ -48,7 +53,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Title" * 10,
+                  currentNews.title,
                   textAlign: TextAlign.justify,
                   style: titleTextStyle,
                 ),
@@ -56,12 +61,12 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 Row(
                   children: [
                     Text(
-                      '20/20/2015',
+                      currentNews.dateToShow,
                       style: smallTextStyle,
                     ),
                     const Spacer(),
                     Text(
-                      'readingTimeText',
+                      currentNews.readingTimeText,
                       style: smallTextStyle,
                     )
                   ],
@@ -77,10 +82,10 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 25),
                   child: FancyShimmerImage(
-                      boxFit: BoxFit.fill,
-                      errorWidget: Image.asset('assets/images/empty_image.png'),
-                      imageUrl:
-                          "https://storage.potatomedia.co/articles/potato_c53ddc30-1c40-4d42-8b4d-17b5eb1c9a7b_abcca2803988a8852dcb31510c6cb04d4df4fad6.png"),
+                    boxFit: BoxFit.fill,
+                    errorWidget: Image.asset('assets/images/empty_image.png'),
+                    imageUrl: currentNews.urlToImage,
+                  ),
                 ),
               ),
               Positioned(
@@ -136,7 +141,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
                 const VerticalSpacing(10),
                 TextContent(
-                  label: 'description ' * 12,
+                  label: currentNews.description,
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),
@@ -148,7 +153,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                 ),
                 const VerticalSpacing(10),
                 TextContent(
-                  label: 'description ' * 12,
+                  label: currentNews.content,
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
                 ),

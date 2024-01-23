@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 
 /// 新聞列表item
 class ArticleWidget extends StatelessWidget {
-
   const ArticleWidget({super.key});
 
   // final String imageUrl, title, url, dateToShow, readingTime;
@@ -36,7 +35,11 @@ class ArticleWidget extends StatelessWidget {
         child: InkWell(
           onTap: () {
             /** 前往『 新聞詳細 』頁 **/
-            Navigator.pushNamed(context, NewsDetailsScreen.routerName);
+            Navigator.pushNamed(
+              context,
+              NewsDetailsScreen.routerName,
+              arguments: newsModelProvider.publishedAt,
+            );
           },
           child: Stack(
             children: [
@@ -101,7 +104,9 @@ class ArticleWidget extends StatelessWidget {
                                     context,
                                     PageTransition(
                                         type: PageTransitionType.rightToLeft,
-                                        child: NewsDetailScreen(url: newsModelProvider.url,),
+                                        child: NewsDetailScreen(
+                                          url: newsModelProvider.url,
+                                        ),
                                         inheritTheme: true,
                                         ctx: context),
                                   );
