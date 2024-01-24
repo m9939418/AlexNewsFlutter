@@ -134,7 +134,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         /** 『 加入書籤 』按鈕 **/
                         GestureDetector(
                           onTap: () {
-                            bookMarksProvider.addToBookmarks();
+                            bookMarksProvider.addToBookmarks(newsModel: currentNews);
                           },
                           child: Card(
                             elevation: 10,

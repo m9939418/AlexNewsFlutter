@@ -13,12 +13,12 @@ class BookmarksProvider with ChangeNotifier {
     return newsList;
   }
 
-  Future<void> addToBookmarks() async {
+  Future<void> addToBookmarks({required NewsModel newsModel}) async {
     try {
       var uri = Uri.https(BASEURL_FIREBASE, "bookmarks.json");
       var response = await http.post(
         uri,
-        body: json.encode({"Test": "Anything"}),
+        body: json.encode(newsModel.toJson()),
       );
       log('Response body: ${response.body}');
     } catch (e) {
