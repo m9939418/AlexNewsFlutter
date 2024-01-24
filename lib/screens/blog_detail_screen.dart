@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/styles.dart';
+import 'package:alex_news_flutter/providers/bookmarks_provider.dart';
 import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/services/global_method.dart';
 import 'package:alex_news_flutter/services/utils.dart';
@@ -26,6 +27,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
     final Color color = Utils(context).getColor;
     final Size size = Utils(context).getScreenSize;
     final newsProvider = Provider.of<NewsProvider>(context);
+    final bookMarksProvider = Provider.of<BookmarksProvider>(context);
     final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return Scaffold(
@@ -129,15 +131,21 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                             ),
                           ),
                         ),
-                        Card(
-                          elevation: 10,
-                          shape: const CircleBorder(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              IconlyLight.bookmark,
-                              size: 28,
-                              color: color,
+                        /** 『 加入書籤 』按鈕 **/
+                        GestureDetector(
+                          onTap: () {
+                            bookMarksProvider.addToBookmarks();
+                          },
+                          child: Card(
+                            elevation: 10,
+                            shape: const CircleBorder(),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(
+                                IconlyLight.bookmark,
+                                size: 28,
+                                color: color,
+                              ),
                             ),
                           ),
                         ),

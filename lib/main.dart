@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/theme_data.dart';
+import 'package:alex_news_flutter/providers/bookmarks_provider.dart';
 import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/providers/theme_provider.dart';
 import 'package:alex_news_flutter/screens/blog_detail_screen.dart';
@@ -43,9 +44,13 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (_) {
             return themeProvider;
           }),
-          /** NewsAPI Provider **/
+          /** News API Provider **/
           ChangeNotifierProvider(create: (_) {
             return NewsProvider();
+          }),
+          /** Bookmarks API Provider **/
+          ChangeNotifierProvider(create: (_) {
+            return BookmarksProvider();
           }),
         ],
         child:

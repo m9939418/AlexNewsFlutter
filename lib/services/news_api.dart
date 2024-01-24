@@ -13,7 +13,7 @@ class NewsApiService {
     try {
       var uri = Uri.https(BASEURL, "v2/everything", {
         "q": "bitcoin",
-        "pageSize": "5",
+        "pageSize": "20",
         "page": page.toString(),
         "sortBy": sortBy,
         // "apiKey": API_KEY,
