@@ -1,8 +1,10 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/providers/bookmarks_provider.dart';
 import 'package:alex_news_flutter/services/utils.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 /**
@@ -27,6 +29,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     baseShimmerColor = utils.baseShimmerColor;
     highlightShimmerColor = utils.highlightShimmerColor;
     widgetShimmerColor = utils.widgetShimmerColor;
+    Provider.of<BookmarksProvider>(
+      context,
+      listen: false,
+    ).fetchBookmarkNews();
     super.didChangeDependencies();
   }
 
