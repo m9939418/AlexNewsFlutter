@@ -24,6 +24,7 @@ class BookmarksProvider with ChangeNotifier {
   /// 取得所有『 Bookmarks 』新聞列表
   Future<List<BookmarksModel>> fetchBookmarkNews() async {
     bookmarkList = await NewsApiService.getBookmarks() ?? [];
+    notifyListeners();
     return bookmarkList;
   }
 

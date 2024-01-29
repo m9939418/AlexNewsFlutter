@@ -33,7 +33,7 @@ class NewsProvider with ChangeNotifier {
     return newsList;
   }
 
-  NewsModel findByDate({required String publishedAt}) {
+  NewsModel findByDate({required String? publishedAt}) {
     return newsList
         .firstWhere((newsModel) => newsModel.publishedAt == publishedAt);
   }

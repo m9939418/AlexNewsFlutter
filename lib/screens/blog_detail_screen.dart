@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/styles.dart';
+import 'package:alex_news_flutter/models/bookmarks_model.dart';
 import 'package:alex_news_flutter/providers/bookmarks_provider.dart';
 import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/services/global_method.dart';
@@ -23,6 +24,27 @@ class NewsDetailsScreen extends StatefulWidget {
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   bool isInBookmark = false;
+  String? publishedAt;
+  dynamic currentBookmark;
+
+  @override
+  void didChangeDependencies() {
+    publishedAt = ModalRoute.of(context)!.settings.arguments as String;
+    final List<BookmarksModel> bookmarkList =
+        Provider.of<BookmarksProvider>(context).getBookmarkList;
+    if (bookmarkList.isEmpty) {
+      return;
+    }
+    currentBookmark = bookmarkList
+        .where((element) => element.publishedAt == publishedAt)
+        .toList();
+    if (currentBookmark.isEmpty) {
+      isInBookmark = false;
+    } else {
+      isInBookmark = true;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +52,6 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
     final Size size = Utils(context).getScreenSize;
     final newsProvider = Provider.of<NewsProvider>(context);
     final bookMarksProvider = Provider.of<BookmarksProvider>(context);
-    final publishedAt = ModalRoute.of(context)!.settings.arguments as String;
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return Scaffold(
       appBar: AppBar(
@@ -143,6 +164,7 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                                 newsModel: currentNews,
                               );
                             }
+                            await bookMarksProvider.fetchBookmarkNews();
                           },
                           child: Card(
                             elevation: 10,
@@ -150,9 +172,11 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Icon(
-                                IconlyLight.bookmark,
+                                isInBookmark
+                                    ? IconlyBold.bookmark
+                                    : IconlyLight.bookmark,
                                 size: 28,
-                                color: color,
+                                color: isInBookmark ? Colors.green : color,
                               ),
                             ),
                           ),
