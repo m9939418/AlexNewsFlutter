@@ -1,5 +1,6 @@
 import 'package:alex_news_flutter/providers/theme_provider.dart';
 import 'package:alex_news_flutter/screens/bookmarks_screen.dart';
+import 'package:alex_news_flutter/screens/home_screen.dart';
 import 'package:alex_news_flutter/widgets/vetical_spacing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -54,20 +55,32 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ListTitlesWidget(
               label: "HOME",
               icon: IconlyBold.home,
-              fct: () {},
+              fct: () {
+                /** 開啟 『 Home 』頁 **/
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: const HomeScreen(),
+                    inheritTheme: true,
+                    ctx: context,
+                  ),
+                );
+              },
             ),
             ListTitlesWidget(
               label: "BookMarks",
               icon: IconlyBold.bookmark,
               fct: () {
                 /** 開啟 『 BookMarks 』頁 **/
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: const BookMarksScreen(),
-                      inheritTheme: true,
-                      ctx: context),
+                    type: PageTransitionType.rightToLeft,
+                    child: const BookMarksScreen(),
+                    inheritTheme: true,
+                    ctx: context,
+                  ),
                 );
               },
             ),

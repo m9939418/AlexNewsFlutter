@@ -22,6 +22,8 @@ class NewsDetailsScreen extends StatefulWidget {
 }
 
 class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
+  bool isInBookmark = false;
+
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
@@ -133,8 +135,14 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         ),
                         /** 『 加入書籤 』按鈕 **/
                         GestureDetector(
-                          onTap: () {
-                            bookMarksProvider.addToBookmarks(newsModel: currentNews);
+                          onTap: () async {
+                            if (isInBookmark) {
+                              await bookMarksProvider.deleteBookmarks();
+                            } else {
+                              await bookMarksProvider.addToBookmarks(
+                                newsModel: currentNews,
+                              );
+                            }
                           },
                           child: Card(
                             elevation: 10,

@@ -21,6 +21,12 @@ class BookmarksProvider with ChangeNotifier {
     return bookmarkList;
   }
 
+  /// 取得所有『 Bookmarks 』新聞列表
+  Future<List<BookmarksModel>> fetchBookmarkNews() async {
+    bookmarkList = await NewsApiService.getBookmarks() ?? [];
+    return bookmarkList;
+  }
+
   /// 『 新增 』Bookmark API
   Future<void> addToBookmarks({required NewsModel newsModel}) async {
     try {
@@ -46,11 +52,5 @@ class BookmarksProvider with ChangeNotifier {
     } catch (e) {
       rethrow;
     }
-  }
-
-  /// 取得所有『 Bookmarks 』新聞列表
-  Future<List<BookmarksModel>> fetchBookmarkNews() async {
-    bookmarkList = await NewsApiService.getBookmarks() ?? [];
-    return bookmarkList;
   }
 }

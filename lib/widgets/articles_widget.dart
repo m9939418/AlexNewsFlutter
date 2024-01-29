@@ -1,4 +1,5 @@
 import 'package:alex_news_flutter/consts/vars.dart';
+import 'package:alex_news_flutter/models/bookmarks_model.dart';
 import 'package:alex_news_flutter/models/news_model.dart';
 import 'package:alex_news_flutter/providers/news_provider.dart';
 import 'package:alex_news_flutter/screens/blog_detail_screen.dart';
@@ -11,7 +12,10 @@ import 'package:provider/provider.dart';
 
 /// 新聞列表item
 class ArticleWidget extends StatelessWidget {
-  const ArticleWidget({super.key});
+  const ArticleWidget({super.key, this.isBookmark = false});
+
+  /// 是否是『 Bookmarks 型 』的新聞
+  final bool isBookmark;
 
   // final String imageUrl, title, url, dateToShow, readingTime;
 
@@ -26,7 +30,10 @@ class ArticleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
-    final newsModelProvider = Provider.of<NewsModel>(context);
+    /** 檢查是否為『 一般型』或者『 Bookmarks 型』的新聞 **/
+    dynamic newsModelProvider = isBookmark
+        ? Provider.of<BookmarksModel>(context)
+        : Provider.of<NewsModel>(context);
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
