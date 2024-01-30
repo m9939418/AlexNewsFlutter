@@ -49,9 +49,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).getColor;
-    final Size size = Utils(context).getScreenSize;
     final newsProvider = Provider.of<NewsProvider>(context);
     final bookMarksProvider = Provider.of<BookmarksProvider>(context);
+
     final currentNews = newsProvider.findByDate(publishedAt: publishedAt);
     return Scaffold(
       appBar: AppBar(
@@ -158,7 +158,9 @@ class _NewsDetailsScreenState extends State<NewsDetailsScreen> {
                         GestureDetector(
                           onTap: () async {
                             if (isInBookmark) {
-                              await bookMarksProvider.deleteBookmarks();
+                              await bookMarksProvider.deleteBookmarks(
+                                key: currentBookmark[0].bookmarkKey,
+                              );
                             } else {
                               await bookMarksProvider.addToBookmarks(
                                 newsModel: currentNews,
